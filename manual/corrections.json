@@ -1,0 +1,64 @@
+{
+  "_doc": "Manuelle Entscheidungen des Nutzers zu Einträgen aus unsicher.md. Wird von scripts/extract.py nach der PDF-Extraktion angewendet. fixes ändern Daten (mit Prüfung des PDF-Werts), accepted bestätigt PDF-Werte ohne Änderung.",
+  "packAliases": {
+    "FEAR": {"code": "FNE", "reason": "Nutzer 2026-10-21: FEAR = Fear No Evil."}
+  },
+  "combinedCodes": {
+    "CW + SS": {"codes": ["CW", "SS"], "reason": "Nutzer 2026-10-21: CW = Civil War, SS = Synthezoid Smackdown."},
+    "CW / SS": {"codes": ["CW", "SS"], "reason": "Nutzer 2026-10-21: CW = Civil War, SS = Synthezoid Smackdown."}
+  },
+  "packSpelling": {
+    "MAGNTO": {"code": "MAGNETO", "reason": "Nutzer 2026-10-21: richtige Schreibweise ist MAGNETO."},
+    "SP//dr": {"code": "SP//DR", "reason": "Nutzer 2026-10-21: richtige Schreibweise ist SP//DR."}
+  },
+  "setSpelling": {
+    "Cape-Killer": {"canonical": "Cape-Killers", "reason": "Nutzer 2026-10-21: richtige Schreibweise ist Cape-Killers."}
+  },
+  "nemesisSets": {
+    "Deathstrike": "Nutzer 2026-10-21: Deathstrike ist ein Nemesis-Set."
+  },
+  "fixes": [
+    {"page": 3, "row": "Vibranium Order", "pdfPacks": ["MTS", "MTS"],
+     "modulars": [["Children of Thanos", "MTS"], ["Black Order", "MTS"]],
+     "reason": "Nutzer 2026-10-21: Black Order fehlt in der PDF (dort 2× MTS, aber nur 1 Set)."},
+    {"page": 20, "row": "Anti-Mutant Army", "pdfPacks": ["APOC"], "packs": ["APOC", "APOC"],
+     "reason": "Nutzer 2026-10-21: beide Sets sind aus APOC."},
+    {"page": 43, "row": "A New Prelate", "pdfPacks": [], "packs": ["WOLV."],
+     "reason": "Nutzer 2026-10-21: Deathstrike ist ein Nemesis-Set. Pack WOLV. wie bei allen 8 anderen Deathstrike-Zeilen der PDF."},
+    {"page": 54, "row": "Illusions of Betrayal", "pdfPacks": ["CW"], "packs": ["CW", "CW"],
+     "reason": "Nutzer 2026-10-21: beide Packs CW."},
+    {"page": 59, "row": "Captain Venom", "pdfPacks": ["SM", "VENOM"], "packs": ["SM", "VENOM", "APOC"],
+     "reason": "Nutzer 2026-10-21: Dystopian Nightmare ist aus APOC."},
+    {"page": 60, "row": "Stealth Mission", "pdfPacks": ["SM", "CW"], "packs": ["SM", "CW", "APOC"],
+     "reason": "Abgeleitet aus Nutzerangabe 2026-10-21 (Captain Venom): Dystopian Nightmare ist aus APOC."},
+    {"page": 60, "row": "Self-Propelled Goblin Glider", "pdfPacks": ["NEXT", "GG"], "packs": ["NEXT", "GG", "GG"],
+     "reason": "Nutzer 2026-10-21: Power Drain ist aus GG."},
+    {"page": 65, "row": "Stone Cold Stunner", "pdfPacks": [], "packs": ["HOOD", "APOC"],
+     "reason": "Nutzer 2026-10-21: Beasty Boys ist aus HOOD, Dystopian Nightmare aus APOC."}
+  ],
+  "accepted": [
+    {"page": 18, "row": "Ronan the Merciful", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"page": 30, "row": "Classic Goblin", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"page": 34, "row": "Gatecrashers", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"page": 36, "row": "Adoring Fans", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"page": 44, "row": "Just Horsing Around", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"page": 52, "row": "Life On Mars", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Baron Zemo, Difficulty ist ok."},
+    {"page": 36, "row": "DEFAULT MODULAR", "reasonContains": "Platzhalter", "reason": "Nutzer 2026-10-21: Magog DEFAULT MODULAR ist ok."},
+    {"page": 28, "row": "Illusions of Betrayal", "reasonContains": "Platzhalter", "reason": "Nutzer 2026-10-21: CW = Civil War, SS = Synthezoid Smackdown."},
+    {"page": 52, "row": "Reluctant Foes #3", "reasonContains": "Platzhalter", "reason": "Nutzer 2026-10-21: CW = Civil War, SS = Synthezoid Smackdown."},
+    {"villain": "THE HOOD", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok."},
+    {"villain": "CUSTOM REGISTRATION COMBOS", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok."},
+    {"villain": "CUSTOM RESISTANCE COMBOS", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok."},
+    {"page": 57, "row": "Solving Time Travel", "reasonContains": "außerhalb", "reason": "Nutzer 2026-10-21: Difficulty −3 ist ok."},
+    {"villain": "BULLSEYE", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "ELECTRO", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "HAMMERHEAD", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "PURPLE MAN", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "TYPHOID MARY", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "THE GETAWAY", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "THE RAFT BREAKOUT", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "KINGPIN", "reasonContains": "DEFAULT", "reason": "Nutzer 2026-10-21: kein DEFAULT ist ok (unreleased)."},
+    {"villain": "CUSTOM REGISTRATION COMBOS", "reasonContains": "keine „", "reason": "Nutzer 2026-10-21: keine Themes/Mechanics ist ok."},
+    {"villain": "CUSTOM RESISTANCE COMBOS", "reasonContains": "keine „", "reason": "Nutzer 2026-10-21: keine Themes/Mechanics ist ok."}
+  ]
+}

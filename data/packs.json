@@ -1,0 +1,128 @@
+{
+  "packs": [
+    {
+      "code": "CORE",
+      "name": "Marvel Champion Core Set"
+    },
+    {
+      "code": "GG",
+      "name": "The Green Goblin Scenario Pack"
+    },
+    {
+      "code": "PRINT",
+      "name": "Official Print-and-Play Cards"
+    },
+    {
+      "code": "RORS",
+      "name": "The Rise of Red Skull Campaign Expansion"
+    },
+    {
+      "code": "KANG",
+      "name": "The Once & Future Kang Scenario Pack"
+    },
+    {
+      "code": "GMW",
+      "name": "The Galaxy’s Most Wanted Campaign Expansion"
+    },
+    {
+      "code": "MTS",
+      "name": "The Mad Titan’s Shadow Campaign Expansion"
+    },
+    {
+      "code": "HOOD",
+      "name": "The Hood Scenario Pack"
+    },
+    {
+      "code": "SM",
+      "name": "Sinister Motives Campaign Expansion"
+    },
+    {
+      "code": "MG",
+      "name": "Mutant Genesis Campaign Expansion"
+    },
+    {
+      "code": "MOJO",
+      "name": "MojoMania Scenario Pack"
+    },
+    {
+      "code": "NEXT",
+      "name": "NeXt Evolution Campaign Expansion"
+    },
+    {
+      "code": "APOC",
+      "name": "Age of Apocalypse Campaign Expansion"
+    },
+    {
+      "code": "SHIELD",
+      "name": "Agents of S.H.I.E.L.D. Campaign Expansion"
+    },
+    {
+      "code": "TT",
+      "name": "Trickster Takeover Scenario Pack"
+    },
+    {
+      "code": "CW",
+      "name": "Civil War"
+    },
+    {
+      "code": "SS",
+      "name": "Synthezoid Smackdown"
+    },
+    {
+      "code": "FNE",
+      "name": "Fear No Evil"
+    }
+  ],
+  "heroPacks": [
+    "ANT-MAN",
+    "CAP. A.",
+    "DOMINO",
+    "FALCON",
+    "GAMBIT",
+    "HERCULES",
+    "HULK",
+    "ICEMAN",
+    "IRONHRT",
+    "JUBILEE",
+    "MAGNETO",
+    "NCRAWL",
+    "NOVA",
+    "PSYLCKE",
+    "ROGUE",
+    "S. WITCH",
+    "SHURI",
+    "SILK",
+    "SP//DR",
+    "STORM",
+    "THOR",
+    "VENOM",
+    "VISION",
+    "WAR M.",
+    "WIDOW",
+    "WINTER",
+    "WOLV.",
+    "X-23"
+  ],
+  "unclearCodes": [
+    "CW + SS",
+    "CW / SS",
+    "FEAR"
+  ],
+  "spellingFixes": {
+    "MAGNTO": "MAGNETO",
+    "SP//dr": "SP//DR"
+  },
+  "aliases": {
+    "FEAR": "FNE"
+  },
+  "combinedCodes": {
+    "CW + SS": [
+      "CW",
+      "SS"
+    ],
+    "CW / SS": [
+      "CW",
+      "SS"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+# Quelle: urheberrechtlich geschützte PDF von VillainTheory – nur lokal
+*.pdf
+
+# Generierte Prüfseite (enthält Seitenbilder der PDF)
+check.html
+check/
+
+# Referenz-Zweitversuch, nur lokal
+archiv/
+
+# Lokaler Zustand von Tools
+state/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

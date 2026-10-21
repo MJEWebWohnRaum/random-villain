@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Villain Randomizer</title>
+<style>
+:root {
+  --bg: #121418; --panel: #1b1e24; --panel-2: #23272f; --line: #2f343d;
+  --text: #e8eaed; --muted: #9aa1ab; --accent: #4f8cff;
+  --green: #3ecf6e; --red: #e5484d; --red-bg: #3a1d20; --gold: #e6b450;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 20px 16px 40px; }
+button { font: inherit; cursor: pointer; }
+
+/* Kopfzeile: Combobox + Würfeln */
+.top { display: flex; gap: 10px; align-items: stretch; }
+.combo { position: relative; flex: 1; min-width: 0; }
+.combo input {
+  width: 100%; height: 46px; padding: 0 40px 0 14px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--text); font: inherit; font-size: 17px; font-weight: 600;
+}
+.combo input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.combo::after { content: "▾"; position: absolute; right: 14px; top: 12px; color: var(--muted); pointer-events: none; }
+.combo ul {
+  position: absolute; z-index: 10; left: 0; right: 0; top: 50px; max-height: 360px; overflow: auto;
+  margin: 0; padding: 4px; list-style: none; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+.combo li { padding: 7px 10px; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
+.combo li small { color: var(--muted); }
+.combo li.active, .combo li:hover { background: var(--accent); color: #fff; }
+.combo li.active small, .combo li:hover small { color: #dde6ff; }
+.combo li.empty { color: var(--muted); cursor: default; background: none; }
+.roll { padding: 0 18px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 700; white-space: nowrap; }
+.roll:hover { filter: brightness(1.1); }
+
+/* Ausgewählte Kombination */
+.choice-line {
+  margin: 14px 0 0; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--green);
+  background: rgba(62, 207, 110, .08); font-weight: 600;
+}
+.choice-line[hidden] { display: none; }
+
+/* Villain-Kopf */
+.villain { margin-top: 18px; padding: 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.villain h1 { margin: 0; font-size: 26px; }
+.villain .exp { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.villain dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 12px 0 0; font-size: 14px; }
+.villain dt { color: var(--muted); }
+.villain dd { margin: 0; }
+.flag { display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 600;
+  vertical-align: middle; background: var(--panel-2); border: 1px solid var(--line); color: var(--gold); }
+.page-notes { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+
+/* Kombinationen */
+.list { margin-top: 14px; display: grid; gap: 10px; }
+.card {
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 16px; border-radius: 10px;
+  background: var(--panel); border: 1px solid var(--line);
+}
+.card.default { border-color: var(--gold); box-shadow: inset 4px 0 0 var(--gold); }
+.card h2 { margin: 0; font-size: 19px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card .sub { color: var(--muted); font-style: italic; font-size: 13px; }
+.check { color: var(--green); font-size: 20px; line-height: 1; }
+.default-tag { font-size: 11px; font-weight: 700; color: var(--gold); border: 1px solid var(--gold); border-radius: 4px; padding: 1px 6px; }
+.mods { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 6px; }
+.mod { font-weight: 500; }
+.mod sup { color: var(--gold); cursor: help; }
+.mod.choice { font-style: italic; color: var(--muted); }
+.nem { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-left: 4px; }
+.sep { color: var(--line); }
+.diff { padding: 1px 9px; border-radius: 999px; background: var(--red-bg); color: var(--red); font-weight: 700; font-size: 13px; border: 1px solid var(--red); }
+.schemes, .mod-note { margin-top: 6px; font-size: 13px; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); color: #c8ccd2; }
+.side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.packs { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.pack { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: var(--panel-2); border: 1px solid var(--line); cursor: help; white-space: nowrap; }
+.pack.missing { color: var(--red); border-color: var(--red); }
+.choose { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-weight: 600; white-space: nowrap; }
+.choose:hover { background: var(--accent); color: #fff; }
+
+footer { margin-top: 28px; color: var(--muted); font-size: 12px; text-align: center; }
+footer a { color: var(--muted); }
+
+@media (max-width: 560px) {
+  .card { grid-template-columns: 1fr; }
+  .side { flex-direction: row; align-items: center; }
+  .packs { flex-direction: row; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div class="combo">
+      <input id="villain-input" type="text" role="combobox" aria-expanded="false" aria-controls="villain-list"
+             aria-label="Villain wählen oder suchen" autocomplete="off" spellcheck="false">
+      <ul id="villain-list" role="listbox" hidden></ul>
+    </div>
+    <button id="roll" class="roll" type="button">Roll again</button>
+  </div>
+  <p id="choice-line" class="choice-line" hidden></p>
+  <section id="villain" class="villain"></section>
+  <section id="combinations" class="list"></section>
+  <footer>
+    Daten: <a href="https://www.youtube.com/@VillainTheory/" target="_blank" rel="noopener">VillainTheory – Every Villain's Best Modular Sets</a>
+  </footer>
+</main>
+
+<script id="data" type="application/json">/*__DATA__*/</script>
+<script>
+"use strict";
+
+/* ===================================================================== Daten */
+
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const VILLAINS = DATA.villains;
+const PACKS = DATA.packs;
+
+const SMALL_WORDS = new Set(["of", "the", "and", "a", "in", "on", "to", "for", "at"]);
+
+/** „RHINO“ → „Rhino“, „STOP THE PRESSES!“ → „Stop the Presses!“, Abkürzungen mit Punkten bleiben. */
+function displayName(text) {
+  return text.split(" ").map((word, i) => {
+    if (/^[A-Z0-9]+(\.[A-Z0-9]+)+\.?$/.test(word.replace(/[()]/g, ""))) return word; // M.O.D.O.K., S.H.I.E.L.D.
+    const lower = word.toLowerCase();
+    if (i > 0 && SMALL_WORDS.has(lower)) return lower;
+    return lower.replace(/(^|[-/(“"])(\p{L})/gu, (_, pre, ch) => pre + ch.toUpperCase());
+  }).join(" ");
+}
+
+/** Erweiterungsname: Schreibweise aus der Pack-Legende, falls dort vorhanden („MojoMania“, „NeXt“). */
+function expansionName(text) {
+  const hit = PACKS.packs.find(p => p.name.toLowerCase() === text.toLowerCase());
+  return hit ? hit.name : displayName(text);
+}
+
+/** Voller Name zu einem Pack-Kürzel (Legende, Alias, Kombi-Kürzel); null = unbekannt/Hero-Pack. */
+function packName(code) {
+  if (code == null) return null;
+  const legend = Object.fromEntries(PACKS.packs.map(p => [p.code, p.name]));
+  if (legend[code]) return legend[code];
+  if (PACKS.aliases[code] && legend[PACKS.aliases[code]]) return legend[PACKS.aliases[code]];
+  if (PACKS.combinedCodes[code]) return PACKS.combinedCodes[code].map(c => legend[c] || c).join(" + ");
+  return null;
+}
+
+function packTooltip(code) {
+  if (code == null) return "Pack fehlt in der Quelle";
+  return packName(code) || (PACKS.heroPacks.includes(code) ? `Hero-Pack ${code}` : code);
+}
+
+function formatDifficulty(combo) {
+  if (combo.difficulty == null) return null;
+  const d = combo.difficulty;
+  return (d >= 0 ? "+" + d : String(d)) + (combo.difficultySpeculative ? "?" : "");
+}
+
+/** Notes an Satzenden in Tags teilen (Abkürzungen wie „S.H.I.E.L.D. trait“ bleiben zusammen). */
+function noteTags(notes) {
+  return notes.split(/(?<=\.)\s+(?=[A-Z0-9(“"])/)
+    .map(t => t.trim().replace(/\.+$/, ""))
+    .filter(Boolean);
+}
+
+/** Kombinationen nach Difficulty (leicht → schwer), bei Gleichstand PDF-Reihenfolge. */
+function sortedCombinations(villain) {
+  return villain.combinations
+    .map((combo, index) => ({ combo, index }))
+    .sort((a, b) => (a.combo.difficulty ?? 0) - (b.combo.difficulty ?? 0) || a.index - b.index)
+    .map(x => x.combo);
+}
+
+/** Einzeile für „Choose this“: „Rhino – Hydra Assault (RORS), Ransacked Armory (HOOD)“. */
+function choiceLine(villain, combo) {
+  const sets = combo.modulars.map(m => `${m.name} (${m.pack ?? "?"})`).join(", ");
+  return `${displayName(villain.name)} – ${sets}`;
+}
+
+/* ===================================================================== Zufall */
+
+/** Würfel-Pool: echte Villains (keine Custom-Combos). Später: Sammlung, Historie, Gewichte. */
+function rollPool(villains) {
+  return villains.filter(v => v.type === "villain");
+}
+
+/** Zufälliger Eintrag aus pool, nicht derselbe wie exclude (sofern möglich). */
+function pickRandom(pool, exclude, random = Math.random) {
+  const candidates = pool.length > 1 ? pool.filter(v => v !== exclude) : pool;
+  return candidates[Math.floor(random() * candidates.length)];
+}
+
+/* ===================================================================== Darstellung */
+
+function el(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "class") node.className = v;
+    else if (k === "dataset") Object.assign(node.dataset, v);
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v);
+  }
+  for (const c of children.flat()) if (c != null && c !== false) node.append(c);
+  return node;
+}
+
+function renderVillain(villain) {
+  const box = document.getElementById("villain");
+  const rows = [
+    ["Themes", villain.themes.join(", ")],
+    ["Mechanics", villain.mechanics.join(", ")],
+    ["Pflicht-Sets", villain.required.join(" · ")],
+  ].filter(([, v]) => v);
+  const pools = (villain.extraPools || []).map(p => [p.title, p.modulars.join(", ")]);
+  box.replaceChildren(
+    el("h1", {}, displayName(villain.name),
+      !villain.released && el("span", { class: "flag" }, "unveröffentlicht"),
+      villain.type === "custom-combos" && el("span", { class: "flag" }, "Custom-Combos")),
+    el("div", { class: "exp" }, expansionName(villain.expansion)),
+    rows.length || pools.length ? el("dl", {}, [...rows, ...pools].map(([k, v]) => [el("dt", {}, k), el("dd", {}, v)])) : null,
+    villain.pageNotes.length ? el("ul", { class: "page-notes" }, villain.pageNotes.map(n => el("li", {}, n))) : null,
+  );
+}
+
+function renderModulars(villain, combo) {
+  const parts = [];
+  combo.modulars.forEach((m, i) => {
+    if (i) parts.push(el("span", { class: "sep" }, "·"));
+    parts.push(el("span", { class: "mod" + (m.type === "choice" ? " choice" : "") }, m.name,
+      m.footnote && el("sup", { title: villain.starMeaning ? `${m.footnote} = ${villain.starMeaning}` : "" }, m.footnote),
+      m.type === "nemesis" && el("span", { class: "nem", title: "Nemesis-Set" }, "Nemesis")));
+  });
+  const diff = formatDifficulty(combo);
+  if (diff) parts.push(el("span", { class: "diff", title: combo.difficultySpeculative ? "In der Quelle mit „?“" : "Difficulty" }, diff));
+  return el("div", { class: "mods" }, parts);
+}
+
+function renderCombination(villain, combo) {
+  return el("article", { class: "card" + (combo.isDefault ? " default" : "") },
+    el("div", {},
+      el("h2", {}, combo.name,
+        combo.recommended && el("span", { class: "check", title: "Empfehlung (✔)" }, "✔"),
+        combo.isDefault && el("span", { class: "default-tag" }, "DEFAULT")),
+      combo.subtitle && el("div", { class: "sub" }, combo.subtitle),
+      renderModulars(villain, combo),
+      combo.modularsNote && el("div", { class: "mod-note" }, combo.modularsNote),
+      combo.mainSchemes && el("div", { class: "schemes" }, "Main Schemes: " + combo.mainSchemes.join(" · ")),
+      el("div", { class: "tags" }, noteTags(combo.notes).map(t => el("span", { class: "tag" }, t)))),
+    el("div", { class: "side" },
+      el("div", { class: "packs" }, combo.modulars.map(m =>
+        el("span", { class: "pack" + (m.pack == null ? " missing" : ""), title: packTooltip(m.pack) }, m.pack ?? "?"))),
+      el("button", { class: "choose", type: "button", onclick: () => showChoice(villain, combo) }, "Choose this")));
+}
+
+function renderCombinations(villain) {
+  document.getElementById("combinations").replaceChildren(
+    ...sortedCombinations(villain).map(c => renderCombination(villain, c)));
+}
+
+function showChoice(villain, combo) {
+  const line = document.getElementById("choice-line");
+  line.textContent = choiceLine(villain, combo);
+  line.hidden = false;
+  line.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+/* ===================================================================== Combobox (Auswahl + Suche) */
+
+function createVillainPicker(villains, onSelect) {
+  const input = document.getElementById("villain-input");
+  const list = document.getElementById("villain-list");
+  let matches = [];
+  let active = 0;
+  let current = null;
+
+  const label = v => displayName(v.name);
+  const hint = v => [!v.released && "unveröffentlicht", v.type === "custom-combos" && "Custom"].filter(Boolean).join(", ");
+
+  function open(filter) {
+    const q = filter.trim().toLowerCase();
+    matches = villains.filter(v => !q || label(v).toLowerCase().includes(q) || v.expansion.toLowerCase().includes(q));
+    active = Math.max(0, matches.indexOf(current));
+    list.replaceChildren(...(matches.length
+      ? matches.map((v, i) => el("li", { role: "option", class: i === active ? "active" : "",
+          onmousedown: e => { e.preventDefault(); choose(v); } }, label(v), el("small", {}, hint(v))))
+      : [el("li", { class: "empty" }, "Kein Treffer")]));
+    list.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    list.children[active]?.scrollIntoView({ block: "nearest" });
+  }
+
+  function close() {
+    list.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    input.value = current ? label(current) : "";
+  }
+
+  function choose(v) {
+    current = v;
+    close();
+    input.blur();
+    onSelect(v);
+  }
+
+  function move(step) {
+    if (!matches.length) return;
+    list.children[active]?.classList.remove("active");
+    active = (active + step + matches.length) % matches.length;
+    list.children[active].classList.add("active");
+    list.children[active].scrollIntoView({ block: "nearest" });
+  }
+
+  input.addEventListener("focus", () => { input.select(); open(""); });
+  input.addEventListener("input", () => open(input.value));
+  input.addEventListener("blur", close);
+  input.addEventListener("keydown", e => {
+    if (list.hidden && (e.key === "ArrowDown" || e.key === "Enter")) { open(""); e.preventDefault(); return; }
+    if (e.key === "ArrowDown") { move(1); e.preventDefault(); }
+    else if (e.key === "ArrowUp") { move(-1); e.preventDefault(); }
+    else if (e.key === "Enter" && matches[active]) { choose(matches[active]); e.preventDefault(); }
+    else if (e.key === "Escape") { close(); input.blur(); }
+  });
+
+  return { set(v) { current = v; close(); }, get: () => current };
+}
+
+/* ===================================================================== Start */
+
+function showVillain(villain) {
+  document.getElementById("choice-line").hidden = true;
+  renderVillain(villain);
+  renderCombinations(villain);
+}
+
+const picker = createVillainPicker(VILLAINS, showVillain);
+const pool = rollPool(VILLAINS);
+
+function roll() {
+  const v = pickRandom(pool, picker.get());
+  picker.set(v);
+  showVillain(v);
+}
+
+document.getElementById("roll").addEventListener("click", roll);
+roll();
+</script>
+</body>
+</html>
