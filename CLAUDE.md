@@ -2,7 +2,7 @@
 
 Extraktion von VillainTheorys „Every Villain's Best Modular Sets“ (Marvel Champions, PDF im Projektordner, 72 Seiten) in geprüfte JSON-Dateien. Darauf baut die Web-App „Random Villain“ (`app/`) auf, die nur `data/villains.json` und `data/packs.json` nutzt.
 
-Repo: https://github.com/MJEWebWohnRaum/random-villain (öffentlich). PDF, `check.html`/`check/` und `archiv/` sind per `.gitignore` ausgeschlossen.
+Repo: https://github.com/MJEWebWohnRaum/random-villain (öffentlich). Lizenz: MIT nur für den Code (© MJEWebWohnRaum), Daten in `data/` bzw. `app/index.html` ausdrücklich ausgenommen (VillainTheory). PDF, `check.html`/`check/` und `archiv/` sind per `.gitignore` ausgeschlossen.
 
 ## Arbeitsweise
 

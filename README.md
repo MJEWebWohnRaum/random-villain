@@ -52,6 +52,12 @@ Nach Änderungen an `app/template.html` oder `data/` immer `python scripts/build
 - Ein erneuter Lauf erzeugt byte-identische Dateien.
 - Lücken der Quelle (fehlende Pack-Kürzel, uneinheitliche Schreibweisen, Difficulty −3) sind in `data/unsicher.md` dokumentiert und über `manual/corrections.json` entschieden. Jede Korrektur trägt eine Begründung im Feld `correction`.
 
+## Lizenz
+
+Der **Code** (`scripts/`, `tests/`, `app/template.html`, Konfiguration) steht unter der [MIT-Lizenz](LICENSE), © 2026 MJEWebWohnRaum.
+
+Die **Daten** sind davon ausgenommen: Die Inhalte in `data/` und die in `app/index.html` eingebetteten Daten (Kombinationsnamen, Notes, Difficulty, Empfehlungen) stammen aus VillainTheorys „Every Villain's Best Modular Sets“ (https://www.youtube.com/@VillainTheory/) und gehören deren Autor. Marvel Champions ist eine Marke der jeweiligen Rechteinhaber; dieses Projekt ist inoffiziell.
+
 ## Stand
 
 Version 0: einzelne lokale HTML-Datei, ohne Login. Geplant: Hosting mit Login, Filter auf die eigene Sammlung, Historie gespielter Villains, JSON-Export.
