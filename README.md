@@ -56,7 +56,7 @@ Nach Änderungen an `app/template.html` oder `data/` immer `python scripts/build
 
 Der **Code** (`scripts/`, `tests/`, `app/template.html`, Konfiguration) steht unter der [MIT-Lizenz](LICENSE), © 2026 MJEWebWohnRaum.
 
-Die **Daten** sind davon ausgenommen: Die Inhalte in `data/` und die in `app/index.html` eingebetteten Daten (Kombinationsnamen, Notes, Difficulty, Empfehlungen) stammen aus VillainTheorys „Every Villain's Best Modular Sets“ (https://www.youtube.com/@VillainTheory/) und gehören deren Autor. Marvel Champions ist eine Marke der jeweiligen Rechteinhaber; dieses Projekt ist inoffiziell.
+Die **Daten** sind davon ausgenommen: Die Inhalte in `data/` und die in `app/index.html` eingebetteten Daten (Kombinationsnamen, Notes, Difficulty, Empfehlungen) stammen aus VillainTheorys „Every Villain's Best Modular Sets“ (https://www.youtube.com/@VillainTheory/) und gehören deren Autor. Marvel Champions ist eine Marke der jeweiligen Rechteinhaber; dieses Projekt ist inoffiziell. Details: [NOTICE](NOTICE).
 
 ## Stand
 

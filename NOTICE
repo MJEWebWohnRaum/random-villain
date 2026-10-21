@@ -1,0 +1,12 @@
+Scope of the license
+
+This license applies to the source code of this repository only (scripts/,
+tests/, app/template.html and the configuration files). It does NOT apply to
+the Marvel Champions content in data/ and the data embedded in app/index.html
+(combination names, notes, difficulty ratings, recommendations), which are
+taken from VillainTheory's "Every Villain's Best Modular Sets"
+(https://www.youtube.com/@VillainTheory/) and remain the property of their
+author.
+
+Marvel Champions is a trademark of its respective owners. This project is
+unofficial and not affiliated with them or with VillainTheory.
